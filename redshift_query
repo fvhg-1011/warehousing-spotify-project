@@ -1,0 +1,44 @@
+DROP TABLE IF EXISTS spotify_songs;
+
+CREATE TABLE spotify_songs (
+    track_name VARCHAR(255),
+    track_artist VARCHAR(255),
+    track_popularity INTEGER,
+    track_album_name VARCHAR(255),
+    playlist_name VARCHAR(255),
+    playlist_genre VARCHAR(50),
+    playlist_subgenre VARCHAR(50),
+    danceability VARCHAR(50),
+    energy VARCHAR(50),
+    key VARCHAR(50),
+    loudness VARCHAR(50),
+    mode VARCHAR(50),
+    speechiness DOUBLE PRECISION,
+    acousticness DOUBLE PRECISION,
+    instrumentalness DOUBLE PRECISION,
+    liveness DOUBLE PRECISION,
+    valence DOUBLE PRECISION,
+    tempo DOUBLE PRECISION,
+    duration_ms DOUBLE PRECISION,
+    album_release_year INTEGER,
+    album_release_month INTEGER
+);
+
+-- dump from s3 to redshift
+copy spotify_songs
+from '<your-s3-bucket-url>'
+IAM_ROLE '<your-iam-role>'
+csv
+IGNOREHEADER 1
+DELIMITER ','
+REGION 'ap-southeast-3';
+
+
+-- showing error logs
+select * from sys_load_error_detail where query_id = 614185;
+
+GRANT SELECT ON stl_load_errors TO admin;
+GRANT SELECT ON sys_load_error_detail TO admin;
+
+
+select * from spotify_songs;
