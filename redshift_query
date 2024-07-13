@@ -1,3 +1,5 @@
+
+-- create db 
 DROP TABLE IF EXISTS spotify_songs;
 
 CREATE TABLE spotify_songs (
@@ -37,8 +39,9 @@ REGION 'ap-southeast-3';
 -- showing error logs
 select * from sys_load_error_detail where query_id = 614185;
 
+-- add permission
 GRANT SELECT ON stl_load_errors TO admin;
 GRANT SELECT ON sys_load_error_detail TO admin;
 
-
+-- check if data is there or not
 select * from spotify_songs;
