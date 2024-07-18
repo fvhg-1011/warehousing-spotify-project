@@ -8,11 +8,16 @@ This project have a learning purposes to create a scalable Music Data Warehouse 
 
 ## Video and Slides
 
-[Video](https://youtu.be/h9fawCS2Jkk) and [Slide](https://docs.google.com/presentation/d/11XD12SjPKmb7PtSyQgYubaN6qyVMGuH0PQrE-Ro1QIU/edit?usp=sharing) can be seen in by clicking respective words. 
+[Video](https://youtu.be/h9fawCS2Jkk) and [Slide](https://docs.google.com/presentation/d/11XD12SjPKmb7PtSyQgYubaN6qyVMGuH0PQrE-Ro1QIU/edit?usp=sharing) can be seen in by clicking respective links. 
 
 ## Project Location
-1. airflow -> Dag that running in droplet-1 for extracting raw_csv
-2. pyspark -> notebook for transforming data and script for lambda handler
+1. airflow/ -> Dag that running in droplet-1 for extracting raw_csv (running using docker-compose)
+2. transform_raw_data/ -> pyspark analysis that running in droplet 2 for first extracting from S3 and transform data to redshift-table-1
+3. transform_exising_data/ -> other analysis dataset using pandas(since the transformation on redshift-table-1 still have some issue) that running in droplet 2 and  stored in redshift table-2
+4. metabase/ -> docker compose for running metabase on droplet-2
+5. basic_songs_recomendations/ -> song recomendations using annoy library
+6. redshift_query -> query that used on redshift console
+7. install_docker.sh -> script for installing docker + docker compose on droplet 1 and droplet 2
 
 ## Why This Project is Needed
 
