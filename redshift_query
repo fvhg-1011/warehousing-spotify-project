@@ -1,5 +1,3 @@
-
--- create db 
 DROP TABLE IF EXISTS spotify_songs;
 
 CREATE TABLE spotify_songs (
@@ -28,8 +26,8 @@ CREATE TABLE spotify_songs (
 
 -- dump from s3 to redshift
 copy spotify_songs
-from '<your-s3-bucket-url>'
-IAM_ROLE '<your-iam-role>'
+from 's3://<bucket-name>/<table-name>/<files>'
+IAM_ROLE '<put-your-iam-role-here>'
 csv
 IGNOREHEADER 1
 DELIMITER ','
@@ -39,9 +37,37 @@ REGION 'ap-southeast-3';
 -- showing error logs
 select * from sys_load_error_detail where query_id = 614185;
 
--- add permission
 GRANT SELECT ON stl_load_errors TO admin;
 GRANT SELECT ON sys_load_error_detail TO admin;
 
--- check if data is there or not
+
 select * from spotify_songs;
+
+
+--create table that transform from spotify_songs named spotify_song_transformed
+CREATE TABLE spotify_song_transformed (
+    track_name VARCHAR(256),
+    track_artist VARCHAR(256),
+    track_popularity INT,
+    track_album_name VARCHAR(256),
+    playlist_name VARCHAR(256),
+    playlist_genre VARCHAR(256),
+    playlist_subgenre VARCHAR(256),
+    danceability FLOAT,
+    energy FLOAT,
+    key INT,
+    loudness FLOAT,
+    mode INT,
+    speechiness FLOAT,
+    acousticness FLOAT,
+    instrumentalness FLOAT,
+    liveness FLOAT,
+    valence FLOAT,
+    tempo FLOAT,
+    duration_ms FLOAT,
+    album_release_year INT,
+    album_release_month INT
+);
+
+-- check the data from table spotify_song_transformed
+select * from spotify_song_transformed;
